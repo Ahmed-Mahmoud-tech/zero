@@ -3,6 +3,8 @@ import Image from "next/image";
 import Step1 from "@/components/steps/Step1";
 import Step2 from "@/components/steps/Step2";
 import Step3 from "@/components/steps/Step3";
+import Step4 from "@/components/steps/Step4";
+import Step5 from "@/components/steps/Step5";
 // import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 export default function HomePage() {
@@ -32,6 +34,27 @@ export default function HomePage() {
                 input[type="radio"]:checked {
                     background: radial-gradient(circle, rgb(220, 38, 38) 40%, white 45%);
                     border-color: rgb(220, 38, 38);
+                }
+
+                 input[type="checkbox"] {
+                    appearance: none;
+                    -webkit-appearance: none;
+                    width: 18px;
+                    height: 18px;
+                    border: 2px solid rgb(156, 163, 175);
+                    border-radius: 3px;
+                    cursor: pointer;
+                    outline: none;
+                    background-color: white;
+                }
+                
+                input[type="checkbox"]:checked {
+                    background-color: rgb(220, 38, 38);
+                    border-color: rgb(220, 38, 38);
+                    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 100%;
                 }
             `}</style>
             <div className="min-h-screen bg-gray-50 p-8 text-sm">
@@ -88,7 +111,7 @@ export default function HomePage() {
                         <div className="my-6"></div>
 
                         {/* Steps */}
-                        <Step3 />
+                        <Step5 />
                     </div>
                 </div>
             </div>
