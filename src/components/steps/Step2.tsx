@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { StepProps } from "@/types/form";
+import ErrorText from "../ErrorText";
 
-export default function Step2() {
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+export default function Step2({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
+    const [uploadedFile, setUploadedFile] = useState<File | null>(values.cvFile);
     const [isDragging, setIsDragging] = useState(false);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
             setUploadedFile(file);
+            setFieldValue('cvFile', file);
         }
     };
 
@@ -37,11 +40,14 @@ export default function Step2() {
         const file = e.dataTransfer.files?.[0];
         if (file) {
             setUploadedFile(file);
+            setFieldValue('cvFile', file);
         }
     };
 
     const handleRemoveFile = () => {
         setUploadedFile(null);
+        setFieldValue('cvFile', null);
+        setFieldTouched('cvFile', false);
     };
 
     const handleFileSubmit = async () => {
@@ -62,6 +68,8 @@ export default function Step2() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("File uploaded successfully:", data);
+                // Save file to Formik
+                setFieldValue('cvFile', uploadedFile);
                 alert("File uploaded successfully!");
             } else {
                 alert("Failed to upload file");
@@ -114,21 +122,38 @@ export default function Step2() {
                                         type="radio"
                                         name="ageRange"
                                         value={range}
+                                        checked={values.ageRange === range}
+                                        onChange={() => setFieldValue('ageRange', range)}
+                                        onBlur={() => setFieldTouched('ageRange', true)}
                                         className=""
                                     />
                                     <span className="ml-3 text-gray-700 text-sm">{range}</span>
                                 </label>
                             ))}
                         </div>
+                        <ErrorText error={errors.ageRange} touched={touched.ageRange} />
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
                             Emirate of residence
                         </label>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700">
-                            <option>Union Al Quwain</option>
+                        <select
+                            value={values.emirate}
+                            onChange={(e) => setFieldValue('emirate', e.target.value)}
+                            onBlur={() => setFieldTouched('emirate', true)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
+                        >
+                            <option value="">Select an emirate</option>
+                            <option value="Abu Dhabi">Abu Dhabi</option>
+                            <option value="Dubai">Dubai</option>
+                            <option value="Sharjah">Sharjah</option>
+                            <option value="Ajman">Ajman</option>
+                            <option value="Umm Al Quwain">Umm Al Quwain</option>
+                            <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                            <option value="Fujairah">Fujairah</option>
                         </select>
+                        <ErrorText error={errors.emirate} touched={touched.emirate} />
                     </div>
                 </div>
 
@@ -142,27 +167,57 @@ export default function Step2() {
                         <label className="block text-sm font-bold text-gray-700 mb-1">
                             Current employment status
                         </label>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700">
-                            <option>Retired</option>
+                        <select
+                            value={values.employmentStatus}
+                            onChange={(e) => setFieldValue('employmentStatus', e.target.value)}
+                            onBlur={() => setFieldTouched('employmentStatus', true)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
+                        >
+                            <option value="">Select employment status</option>
+                            <option value="Employed">Employed</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Retired">Retired</option>
+                            <option value="Unemployed">Unemployed</option>
                         </select>
+                        <ErrorText error={errors.employmentStatus} touched={touched.employmentStatus} />
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
                             Sector of employment
                         </label>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700">
-                            <option>Non-profit</option>
+                        <select
+                            value={values.sector}
+                            onChange={(e) => setFieldValue('sector', e.target.value)}
+                            onBlur={() => setFieldTouched('sector', true)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
+                        >
+                            <option value="">Select a sector</option>
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                            <option value="Non-profit">Non-profit</option>
                         </select>
+                        <ErrorText error={errors.sector} touched={touched.sector} />
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
                             Field of work / specialization
                         </label>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700">
-                            <option>Business</option>
+                        <select
+                            value={values.fieldOfWork}
+                            onChange={(e) => setFieldValue('fieldOfWork', e.target.value)}
+                            onBlur={() => setFieldTouched('fieldOfWork', true)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
+                        >
+                            <option value="">Select a field</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Business">Business</option>
+                            <option value="Education">Education</option>
+                            <option value="Other">Other</option>
                         </select>
+                        <ErrorText error={errors.fieldOfWork} touched={touched.fieldOfWork} />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -172,9 +227,13 @@ export default function Step2() {
                             </label>
                             <input
                                 type="text"
+                                value={values.workplace}
+                                onChange={(e) => setFieldValue('workplace', e.target.value)}
+                                onBlur={() => setFieldTouched('workplace', true)}
                                 placeholder="Ministry of Justice"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                             />
+                            <ErrorText error={errors.workplace} touched={touched.workplace} />
                         </div>
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
@@ -182,9 +241,13 @@ export default function Step2() {
                             </label>
                             <input
                                 type="number"
+                                value={values.yearsExperience}
+                                onChange={(e) => setFieldValue('yearsExperience', e.target.value)}
+                                onBlur={() => setFieldTouched('yearsExperience', true)}
                                 placeholder="10"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                             />
+                            <ErrorText error={errors.yearsExperience} touched={touched.yearsExperience} />
                         </div>
                     </div>
                 </div>
@@ -256,15 +319,24 @@ export default function Step2() {
                                 File uploaded successfully
                             </button>
                         )}
+                        <ErrorText error={errors.cvFile} touched={touched.cvFile} />
                     </div>
                 </div>
 
                 {/* Buttons */}
                 <div className="flex justify-between">
-                    <button className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300">
+                    <button
+                        type="button"
+                        onClick={onPrevious}
+                        className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300"
+                    >
                         Previous
                     </button>
-                    <button className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700">
+                    <button
+                        type="button"
+                        onClick={onNext}
+                        className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700"
+                    >
                         Next
                     </button>
                 </div>

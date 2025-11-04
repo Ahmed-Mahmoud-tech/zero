@@ -1,4 +1,8 @@
-export default function Step1() {
+import ErrorText from '../ErrorText';
+import { StepProps } from '@/types/form';
+
+export default function Step1({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
+
     return (
         <div className="bg-white p-8 rounded-lg shadow-neutral-300 shadow-md">
             <div className="text-center font-bold mb-6">
@@ -20,6 +24,9 @@ export default function Step1() {
                             type="radio"
                             name="employment"
                             value="yes"
+                            checked={values.employment === 'yes'}
+                            onChange={() => setFieldValue('employment', 'yes')}
+                            onBlur={() => setFieldTouched('employment', true)}
                             className="w-5 h-5 text-red-600"
                         />
                         <span className="ml-3 text-gray-700">Yes</span>
@@ -29,11 +36,15 @@ export default function Step1() {
                             type="radio"
                             name="employment"
                             value="no"
+                            checked={values.employment === 'no'}
+                            onChange={() => setFieldValue('employment', 'no')}
+                            onBlur={() => setFieldTouched('employment', true)}
                             className="w-5 h-5 text-gray-400"
                         />
                         <span className="ml-3 text-gray-700">No</span>
                     </label>
                 </div>
+                <ErrorText error={errors.employment} touched={touched.employment} />
             </div>
 
 
@@ -75,10 +86,18 @@ export default function Step1() {
 
             {/* Buttons */}
             <div className="flex justify-between pt-2">
-                <button className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300">
+                <button
+                    type="button"
+                    disabled
+                    className="px-6 py-2 text-gray-400 font-medium rounded-lg border border-gray-300 cursor-not-allowed"
+                >
                     Previous
                 </button>
-                <button className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700">
+                <button
+                    type="button"
+                    onClick={onNext}
+                    className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700"
+                >
                     Next
                 </button>
             </div>

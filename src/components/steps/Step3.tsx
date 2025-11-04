@@ -1,30 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { StepProps } from '@/types/form';
+import ErrorText from '../ErrorText';
 
-export default function Step3() {
-    const [formData, setFormData] = useState({
-        purposeText: '',
-        experience: '',
-        selectedExperiences: [] as string[],
-        otherSpecify: '',
-    });
-
-    const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
+export default function Step3({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
 
     const handleCheckboxChange = (value: string) => {
-        setFormData(prev => ({
-            ...prev,
-            selectedExperiences: prev.selectedExperiences.includes(value)
-                ? prev.selectedExperiences.filter(item => item !== value)
-                : [...prev.selectedExperiences, value],
-        }));
+        const currentExperiences = values.selectedExperiences || [];
+        const newExperiences = currentExperiences.includes(value)
+            ? currentExperiences.filter(item => item !== value)
+            : [...currentExperiences, value];
+        setFieldValue('selectedExperiences', newExperiences);
     };
 
     const experiences = [
@@ -49,13 +35,15 @@ export default function Step3() {
                     </label>
                     <textarea
                         name="purposeText"
-                        value={formData.purposeText}
-                        onChange={handleTextChange}
+                        value={values.purposeText}
+                        onChange={(e) => setFieldValue('purposeText', e.target.value)}
+                        onBlur={() => setFieldTouched('purposeText', true)}
                         placeholder="Enter your response..."
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600"
                         rows={4}
                     />
-                    <p className="text-xs text-gray-500">0/500 words</p>
+                    <ErrorText error={errors.purposeText} touched={touched.purposeText} />
+                    <p className="text-xs text-gray-500 mt-1">0/500 words</p>
                 </div>
 
                 {/* Question 2: Relevant experience */}
@@ -70,7 +58,7 @@ export default function Step3() {
                             <label key={exp.id} className="flex items-center cursor-pointer">
                                 <input
                                     type="checkbox"
-                                    checked={formData.selectedExperiences.includes(exp.id)}
+                                    checked={values.selectedExperiences?.includes(exp.id) || false}
                                     onChange={() => handleCheckboxChange(exp.id)}
                                     className=""
                                 />
@@ -78,19 +66,19 @@ export default function Step3() {
                             </label>
                         ))}
                     </div>
+                    <ErrorText error={errors.selectedExperiences} touched={touched.selectedExperiences} />
 
-                    {formData.selectedExperiences.includes('other') && (
+                    {values.selectedExperiences?.includes('other') && (
                         <div className="mt-4">
                             <input
                                 type="text"
-                                value={formData.otherSpecify}
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    otherSpecify: e.target.value,
-                                }))}
+                                value={values.otherSpecify}
+                                onChange={(e) => setFieldValue('otherSpecify', e.target.value)}
+                                onBlur={() => setFieldTouched('otherSpecify', true)}
                                 placeholder="Please specify"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600 text-sm"
                             />
+                            <ErrorText error={errors.otherSpecify} touched={touched.otherSpecify} />
                         </div>
                     )}
                 </div>
@@ -102,23 +90,22 @@ export default function Step3() {
                     </label>
                     <input
                         type="text"
-                        name="experience"
-                        value={formData.experience}
-                        onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            experience: e.target.value,
-                        }))}
+                        name="evaluationExperience"
+                        value={values.evaluationExperience}
+                        onChange={(e) => setFieldValue('evaluationExperience', e.target.value)}
+                        onBlur={() => setFieldTouched('evaluationExperience', true)}
                         placeholder="Describe your evaluation experience..."
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600"
                     />
+                    <ErrorText error={errors.evaluationExperience} touched={touched.evaluationExperience} />
                 </div>
 
                 {/* Buttons */}
                 <div className="flex justify-between border-gray-200">
-                    <button className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300">
+                    <button type="button" onClick={onPrevious} className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300">
                         Previous
                     </button>
-                    <button className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700">
+                    <button type="button" onClick={onNext} className="px-6 py-2 bg-red-600 text-white font-medium hover:bg-red-700 rounded-lg">
                         Next
                     </button>
                 </div>
