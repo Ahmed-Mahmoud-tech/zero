@@ -97,22 +97,45 @@ export default function MultiStepForm() {
     const [mounted, setMounted] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
     const [formInitialValues, setFormInitialValues] = useState(initialValues);
+    const formValuesRef = useRef<typeof initialValues>(initialValues);
+    const prevValuesRef = useRef<string>('');
+    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const triggerSaveRef = useRef<(() => void) | null>(null);
 
     // Initialize on client side only (run once)
     useEffect(() => {
         if (!initializeRef.current) {
             initializeRef.current = true;
             const { formData, currentStep: savedStep } = getFormDataFromCookie();
-            if (formData) {
-                setFormInitialValues((prev) => ({
-                    ...prev,
-                    ...formData,
-                } as typeof initialValues));
-                setCurrentStep(savedStep);
-            }
-            setMounted(true);
+            const timeoutId = setTimeout(() => {
+                if (formData) {
+                    setFormInitialValues((prev) => ({
+                        ...prev,
+                        ...formData,
+                    } as typeof initialValues));
+                    setCurrentStep(savedStep);
+                }
+                setMounted(true);
+            }, 0);
+            
+            return () => clearTimeout(timeoutId);
         }
     }, []);
+
+    // Set up callback to trigger save
+    useEffect(() => {
+        triggerSaveRef.current = () => {
+            if (saveTimeoutRef.current) {
+                clearTimeout(saveTimeoutRef.current);
+            }
+
+            saveTimeoutRef.current = setTimeout(() => {
+                if (typeof window !== 'undefined' && formValuesRef.current) {
+                    saveFormDataToCookie(formValuesRef.current, currentStep);
+                }
+            }, 500);
+        };
+    }, [currentStep]);
 
     // Don't render form until mounted on client to prevent hydration errors
     if (!mounted) {
@@ -212,9 +235,15 @@ export default function MultiStepForm() {
             validateOnBlur={true}
         >
             {({ values, errors, touched, setFieldValue, setFieldTouched, validateForm, setTouched }) => {
-                // Save form data to cookies whenever values change
-                if (typeof window !== 'undefined') {
-                    saveFormDataToCookie(values, currentStep);
+                // Update ref with current values for use in effects/callbacks
+                formValuesRef.current = values;
+                
+                // Check if values changed and trigger save (using callback to avoid setState)
+                const currentValuesStr = JSON.stringify(values);
+                if (mounted && prevValuesRef.current !== currentValuesStr) {
+                    prevValuesRef.current = currentValuesStr;
+                    // Call the save trigger function without updating state
+                    triggerSaveRef.current?.();
                 }
 
                 return (

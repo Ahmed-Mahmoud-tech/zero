@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MultiStepForm from "@/components/MultiStepForm";
+import LastSavedTime from "@/components/LastSavedTime";
 
 export default function HomePage() {
     return (
@@ -73,9 +74,7 @@ export default function HomePage() {
                     <div className="py-8">
                         {/* Title and Language */}
                         <div className="flex justify-between items-center mb-2">
-                            <div className="text-sm text-gray-500 mb-4">
-                                Last saved: 10/16/25, 1:22 PM
-                            </div>
+                            <LastSavedTime />
 
                             <button className="text-gray-700 hover:text-gray-900 border border-gray-300 px-4 py-1 font-bold rounded-lg">
                                 العربية

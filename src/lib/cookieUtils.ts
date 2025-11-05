@@ -4,6 +4,7 @@ import { FormValues } from "@/types/form";
 const FORM_DATA_COOKIE = "zeroform_data";
 const CURRENT_STEP_COOKIE = "zeroform_step";
 const FILE_NAME_COOKIE = "zeroform_file_name";
+const LAST_SAVED_COOKIE = "zeroform_last_saved";
 const COOKIE_EXPIRY_DAYS = 7;
 
 export const saveFormDataToCookie = (
@@ -11,6 +12,15 @@ export const saveFormDataToCookie = (
   currentStep: number
 ) => {
   try {
+    // Update last saved timestamp
+    const now = new Date().toISOString();
+    if (typeof window !== "undefined") {
+      localStorage.setItem(LAST_SAVED_COOKIE, now);
+      console.log("Dispatching formDataSaved event with timestamp:", now);
+      // Dispatch custom event to notify listeners in same tab
+      window.dispatchEvent(new CustomEvent('formDataSaved', { detail: { timestamp: now } }));
+    }
+
     // Save File metadata separately (filename only, not the actual file)
     const dataToSave = {
       ...formData,
