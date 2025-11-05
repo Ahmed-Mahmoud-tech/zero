@@ -2,8 +2,10 @@
 
 import { StepProps } from '@/types/form';
 import ErrorText from '../ErrorText';
+import { useTranslations } from 'next-intl';
 
 export default function Step3({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
+    const t = useTranslations();
 
     const getWordCount = (text: string): number => {
         if (!text) return 0;
@@ -19,11 +21,11 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
     };
 
     const experiences = [
-        { id: 'community', label: 'Community engagement' },
-        { id: 'innovation', label: 'Innovation experience' },
-        { id: 'policy', label: 'Policy knowledge' },
-        { id: 'leadership', label: 'Leadership' },
-        { id: 'other', label: 'Other' },
+        { id: 'community', label: t('step3.community') },
+        { id: 'innovation', label: t('step3.innovation') },
+        { id: 'policy', label: t('step3.policy') },
+        { id: 'leadership', label: t('step3.leadership') },
+        { id: 'other', label: t('step3.otherExperience') },
     ];
 
     return (
@@ -31,32 +33,32 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
 
 
             <div className="bg-white p-8 rounded-lg shadow-neutral-300 shadow-md">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Purpose of Participation</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('step3.title')}</h2>
 
                 {/* Question 1: Why participate */}
                 <div className="mb-8">
                     <label className="block text-sm font-bold text-gray-900 mb-2">
-                        Why would you like to be a community evaluator in the Zero Bureaucracy Program?
+                        {t('step3.whyParticipate')}
                     </label>
                     <textarea
                         name="purposeText"
                         value={values.purposeText}
                         onChange={(e) => setFieldValue('purposeText', e.target.value)}
                         onBlur={() => setFieldTouched('purposeText', true)}
-                        placeholder="Enter your response..."
+                        placeholder={t('step3.whyParticipate')}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600"
                         rows={4}
                     />
                     <ErrorText error={errors.purposeText} touched={touched.purposeText} />
-                    <p className="text-xs text-gray-500 mt-1">{getWordCount(values.purposeText)}/500 words</p>
+                    <p className="text-xs text-gray-500 mt-1">{getWordCount(values.purposeText)}/{t('step3.maxWords')} {t('step3.wordCount')}</p>
                 </div>
 
                 {/* Question 2: Relevant experience */}
                 <div className="mb-8">
                     <label className="block text-sm font-bold text-gray-900 mb-3">
-                        Relevant experience or perspective you bring
+                        {t('step3.relevantExperience')}
                     </label>
-                    <p className="text-xs text-gray-600 mb-3">Select all that apply</p>
+                    <p className="text-xs text-gray-600 mb-3">{t('step3.selectAllApply')}</p>
 
                     <div className="flex flex-wrap gap-3">
                         {experiences.map((exp) => (
@@ -80,7 +82,7 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
                 {values.selectedExperiences?.includes('other') && (
                     <div className="mb-8">
                         <label className="block text-sm font-bold text-gray-900 mb-2">
-                            Please specify
+                            {t('step3.pleaseSpecify')}
                         </label>
                         <input
                             type="text"
@@ -98,10 +100,10 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
                 {/* Buttons */}
                 <div className="flex justify-between border-gray-200">
                     <button type="button" onClick={onPrevious} className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300">
-                        Previous
+                        {t('step1.previous')}
                     </button>
                     <button type="button" onClick={onNext} className="px-6 py-2 bg-red-600 text-white font-medium hover:bg-red-700 rounded-lg">
-                        Next
+                        {t('step1.next')}
                     </button>
                 </div>
             </div >

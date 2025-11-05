@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import { StepProps } from "@/types/form";
 import ErrorText from "../ErrorText";
 
 export default function Step2({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
+    const t = useTranslations();
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const prevCvFileRef = useRef<File | null>(null);
@@ -33,11 +35,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
 
         if (!allowedTypes.includes(file.type)) {
-            return 'Only PDF and DOCX files are allowed';
+            return t('common.invalidFile');
         }
 
         if (file.size > maxSize) {
-            return `File size exceeds 10MB limit. Your file is ${(file.size / (1024 * 1024)).toFixed(2)}MB`;
+            return `${t('common.fileSizeError')} ${(file.size / (1024 * 1024)).toFixed(2)}MB`;
         }
 
         return null;
@@ -98,7 +100,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
 
     const handleFileSubmit = async () => {
         if (!uploadedFile) {
-            toast.warning("Please select a file first");
+            toast.warning(t('common.selectFile'));
             return;
         }
 
@@ -116,13 +118,13 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                 console.log("File uploaded successfully:", data);
                 // Save file to Formik
                 setFieldValue('cvFile', uploadedFile);
-                toast.success("File uploaded successfully!");
+                toast.success(t('common.uploadSuccess'));
             } else {
-                toast.error("Failed to upload file");
+                toast.error(t('common.uploadError'));
             }
         } catch (error) {
             console.error("Error uploading file:", error);
-            toast.error("Error uploading file");
+            toast.error(t('common.uploadError'));
         }
     };
 
@@ -130,7 +132,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         <>
             <div className="bg-white p-8 rounded-lg shadow-neutral-300 shadow-md">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                    About You
+                    {t('step2.title')}
                 </h2>
 
                 {/* Personal Information Section */}
@@ -158,7 +160,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-3">
-                            Age Range:
+                            {t('step2.ageRange')}:
                         </label>
                         <div className="flex gap-x-14 gap-y-4 flex-wrap">
                             {["18-24", "25-34", "35-44", "45-54", "55+"].map((range) => (
@@ -172,7 +174,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                         onBlur={() => setFieldTouched('ageRange', true)}
                                         className=""
                                     />
-                                    <span className="ml-3 text-gray-700 text-sm">{range}</span>
+                                    <span className="ms-3 text-gray-700 text-sm">{range}</span>
                                 </label>
                             ))}
                         </div>
@@ -181,7 +183,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
-                            Emirate of residence
+                            {t('step2.emirate')}
                         </label>
                         <select
                             value={values.emirate}
@@ -189,7 +191,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             onBlur={() => setFieldTouched('emirate', true)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
-                            <option value="">Select an emirate</option>
+                            <option value="">{t('step2.selectEmirate')}</option>
                             <option value="Abu Dhabi">Abu Dhabi</option>
                             <option value="Dubai">Dubai</option>
                             <option value="Sharjah">Sharjah</option>
@@ -205,12 +207,12 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                 {/* Employment Section */}
                 <div className="mb-8 space-y-4">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                        Employment
+                        {t('step2.employmentStatus')}
                     </h3>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
-                            Current employment status
+                            {t('step2.employmentStatus')}
                         </label>
                         <select
                             value={values.employmentStatus}
@@ -218,18 +220,18 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             onBlur={() => setFieldTouched('employmentStatus', true)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
-                            <option value="">Select employment status</option>
-                            <option value="Employed">Employed</option>
-                            <option value="Self-employed">Self-employed</option>
-                            <option value="Retired">Retired</option>
-                            <option value="Unemployed">Unemployed</option>
+                            <option value="">{t('step2.selectEmploymentStatus')}</option>
+                            <option value="Employed">{t('step2.employed')}</option>
+                            <option value="Self-employed">{t('step2.selfEmployed')}</option>
+                            <option value="Retired">{t('step2.retired')}</option>
+                            <option value="Unemployed">{t('step2.notEmployed')}</option>
                         </select>
                         <ErrorText error={errors.employmentStatus} touched={touched.employmentStatus} />
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
-                            Sector of employment
+                            {t('step2.sector')}
                         </label>
                         <select
                             value={values.sector}
@@ -237,17 +239,17 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             onBlur={() => setFieldTouched('sector', true)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
-                            <option value="">Select a sector</option>
-                            <option value="Public">Public</option>
+                            <option value="">{t('step2.selectSector')}</option>
+                            <option value="Public">{t('step2.government')}</option>
                             <option value="Private">Private</option>
-                            <option value="Non-profit">Non-profit</option>
+                            <option value="Non-profit">{t('step2.nonprofit')}</option>
                         </select>
                         <ErrorText error={errors.sector} touched={touched.sector} />
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
-                            Field of work / specialization
+                            {t('step2.fieldOfWork')}
                         </label>
                         <select
                             value={values.fieldOfWork}
@@ -255,12 +257,12 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             onBlur={() => setFieldTouched('fieldOfWork', true)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
-                            <option value="">Select a field</option>
+                            <option value="">{t('step2.selectField')}</option>
                             <option value="Technology">Technology</option>
-                            <option value="Healthcare">Healthcare</option>
-                            <option value="Business">Business</option>
-                            <option value="Education">Education</option>
-                            <option value="Other">Other</option>
+                            <option value="Healthcare">{t('step2.healthcare')}</option>
+                            <option value="Business">{t('step2.businessDevelopment')}</option>
+                            <option value="Education">{t('step2.education')}</option>
+                            <option value="Other">{t('step2.other')}</option>
                         </select>
                         <ErrorText error={errors.fieldOfWork} touched={touched.fieldOfWork} />
                     </div>
@@ -268,7 +270,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
-                                Name of workplace
+                                {t('step2.workplace')}
                             </label>
                             <input
                                 type="text"
@@ -282,7 +284,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                         </div>
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
-                                Years of experience
+                                {t('step2.yearsExperience')}
                             </label>
                             <input
                                 type="number"
@@ -300,12 +302,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                 {/* Additional Requirements Section */}
                 <div className="mb-8 space-y-4">
                     <h3 className="text-lg font-bold text-gray-900 mb-2">
-                        Additional Requirements
+                        {t('step2.cvFile')}
                     </h3>
 
                     <p className="text-sm text-gray-600 mb-4">
-                        Upload your CV highlighting relevant experience and achievements
-                        (PDF or DOCX up to 10MB).{" "}
+                        {t('step2.dragDropText')} ({t('step2.fileFormats')}, {t('step2.maxFileSize')})
                     </p>
                     <div>
                         <div className="p-4 bg-red-25 border-dashed border border-gray-400 rounded-lg bg-red-50">
@@ -349,7 +350,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                                 className="ml-4 text-gray-800 hover:text-gray-600 font-bold text-xs border border-gray-200 rounded px-2 py-1"
                                                 title="Delete file"
                                             >
-                                                Remove
+                                                {t('step2.remove')}
                                             </button>
                                         </div>
                                     </div>
@@ -361,7 +362,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                 onClick={handleFileSubmit}
                                 className="text-green-600 hover:text-green-700 font-medium text-xs mt-2"
                             >
-                                File uploaded successfully
+                                {t('common.uploadSuccess')}
                             </button>
                         )}
                         <ErrorText error={errors.cvFile} touched={touched.cvFile} />
@@ -375,14 +376,14 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                         onClick={onPrevious}
                         className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300"
                     >
-                        Previous
+                        {t('step1.previous')}
                     </button>
                     <button
                         type="button"
                         onClick={onNext}
                         className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700"
                     >
-                        Next
+                        {t('step1.next')}
                     </button>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 @import "react-toastify/dist/ReactToastify.css";
 
@@ -24,6 +25,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Apply Cairo font for Arabic */
+html[lang="ar"],
+html[lang="ar"] body {
+  font-family: "Cairo", sans-serif;
 }
 
 input[type="radio"]:checked,

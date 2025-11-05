@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 const LAST_SAVED_COOKIE = "zeroform_last_saved";
 
@@ -20,6 +21,7 @@ const formatDateTime = (date: Date): string => {
 };
 
 export default function LastSavedTime() {
+    const t = useTranslations();
     const [lastSaved, setLastSaved] = useState<string>(formatDateTime(new Date()));
     const initRef = useRef(false);
 
@@ -60,8 +62,8 @@ export default function LastSavedTime() {
     }, []);
 
     return (
-        <div className="text-sm text-gray-500 mb-4">
-            Last saved: {lastSaved}
+        <div className="text-sm text-gray-500">
+            {t('common.lastSaved')} {lastSaved}
         </div>
     );
 }

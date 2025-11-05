@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { useTranslations } from 'next-intl';
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
 import Step3 from './steps/Step3';
@@ -12,68 +13,6 @@ import Step6 from './steps/Step6';
 import { saveFormDataToCookie, getFormDataFromCookie } from '@/lib/cookieUtils';
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from 'next/navigation';
-
-const validationSchema = Yup.object({
-    // Step 1
-    employment: Yup.string().required('This field is required'),
-
-    // Step 2
-    ageRange: Yup.string().required('This field is required'),
-    emirate: Yup.string().required('This field is required'),
-    employmentStatus: Yup.string().required('This field is required'),
-    sector: Yup.string().required('This field is required'),
-    fieldOfWork: Yup.string().required('This field is required'),
-    workplace: Yup.string().required('This field is required'),
-    yearsExperience: Yup.number()
-        .required('This field is required')
-        .positive('Must be a positive number')
-        .integer('Must be a whole number'),
-    cvFile: Yup.mixed()
-        .test('file-required', 'This field is required', (value) => {
-            return value !== null && value !== undefined;
-        }),
-
-    // Step 3
-    purposeText: Yup.string()
-        .required('This field is required')
-        .test('word-count', 'Maximum 500 words allowed', (value) => {
-            if (!value) return true;
-            const words = value.trim().split(/\s+/).filter(word => word.length > 0).length;
-            return words <= 500;
-        }),
-    selectedExperiences: Yup.array()
-        .min(1, 'This field is required')
-        .required('This field is required'),
-    otherSpecify: Yup.string().when('selectedExperiences', {
-        is: (experiences: string[]) => experiences?.includes('other'),
-        then: (schema) => schema.required('This field is required'),
-        otherwise: (schema) => schema,
-    }),
-    evaluationExperience: Yup.string().when('selectedExperiences', {
-        is: (experiences: string[]) => experiences?.includes('other'),
-        then: (schema) => schema.required('This field is required'),
-        otherwise: (schema) => schema,
-    }),
-
-    // Step 4
-    hasExperience: Yup.string().required('This field is required'),
-    experienceType: Yup.string().when('hasExperience', {
-        is: 'Yes',
-        then: (schema) => schema.required('This field is required'),
-        otherwise: (schema) => schema,
-    }),
-    experienceDescription: Yup.string().when('hasExperience', {
-        is: 'Yes',
-        then: (schema) => schema.required('This field is required'),
-        otherwise: (schema) => schema,
-    }),
-
-    // Step 5
-    isPrivacyExpanded: Yup.boolean(),
-    isAgreed: Yup.boolean()
-        .oneOf([true], 'This field is required')
-        .required('This field is required'),
-});
 
 const initialValues = {
     // Step 1
@@ -106,6 +45,70 @@ const initialValues = {
 };
 
 export default function MultiStepForm() {
+    const t = useTranslations();
+
+    // Create validation schema with translated messages
+    const validationSchema = Yup.object({
+        // Step 1
+        employment: Yup.string().required(t('common.required')),
+
+        // Step 2
+        ageRange: Yup.string().required(t('common.required')),
+        emirate: Yup.string().required(t('common.required')),
+        employmentStatus: Yup.string().required(t('common.required')),
+        sector: Yup.string().required(t('common.required')),
+        fieldOfWork: Yup.string().required(t('common.required')),
+        workplace: Yup.string().required(t('common.required')),
+        yearsExperience: Yup.number()
+            .required(t('common.required'))
+            .positive(t('common.positiveNumber'))
+            .integer(t('common.wholeNumber')),
+        cvFile: Yup.mixed()
+            .test('file-required', t('common.required'), (value) => {
+                return value !== null && value !== undefined;
+            }),
+
+        // Step 3
+        purposeText: Yup.string()
+            .required(t('common.required'))
+            .test('word-count', t('common.wordCountExceeded'), (value) => {
+                if (!value) return true;
+                const words = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+                return words <= 500;
+            }),
+        selectedExperiences: Yup.array()
+            .min(1, t('common.required'))
+            .required(t('common.required')),
+        otherSpecify: Yup.string().when('selectedExperiences', {
+            is: (experiences: string[]) => experiences?.includes('other'),
+            then: (schema) => schema.required(t('common.required')),
+            otherwise: (schema) => schema,
+        }),
+        evaluationExperience: Yup.string().when('selectedExperiences', {
+            is: (experiences: string[]) => experiences?.includes('other'),
+            then: (schema) => schema.required(t('common.required')),
+            otherwise: (schema) => schema,
+        }),
+
+        // Step 4
+        hasExperience: Yup.string().required(t('common.required')),
+        experienceType: Yup.string().when('hasExperience', {
+            is: 'Yes',
+            then: (schema) => schema.required(t('common.required')),
+            otherwise: (schema) => schema,
+        }),
+        experienceDescription: Yup.string().when('hasExperience', {
+            is: 'Yes',
+            then: (schema) => schema.required(t('common.required')),
+            otherwise: (schema) => schema,
+        }),
+
+        // Step 5
+        isPrivacyExpanded: Yup.boolean(),
+        isAgreed: Yup.boolean()
+            .oneOf([true], t('common.required'))
+            .required(t('common.required')),
+    });
     const initializeRef = useRef(false);
     const [mounted, setMounted] = useState(false);
     const [currentStep, setCurrentStep] = useState(parseInt(Cookies.get('zeroform_step') as string, 10) || 1);
@@ -253,11 +256,11 @@ export default function MultiStepForm() {
             if (response.ok) {
                 setCurrentStep(6);
             } else {
-                alert('Failed to submit form');
+                alert(t('common.submitFailed'));
             }
         } catch (error) {
             console.error('Error submitting form:', error);
-            alert('Error submitting form');
+            alert(t('common.submitError'));
         }
     };
 
@@ -289,7 +292,7 @@ export default function MultiStepForm() {
                         {currentStep > 1 && currentStep < 6 && (
                             <div className="mb-8">
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="text-sm text-gray-700 font-bold">Form progress:</span>
+                                    <span className="text-sm text-gray-700 font-bold">{t('common.formProgress')}</span>
                                     <span className="text-md font-bold text-red-600">
                                         {Math.round(getProgressPercentage())}%
                                     </span>

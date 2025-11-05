@@ -2,13 +2,15 @@
 
 import ErrorText from '../ErrorText';
 import { StepProps } from '@/types/form';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function Step5({ values, errors, touched, setFieldValue, setFieldTouched, onPrevious }: StepProps) {
-
+    const t = useTranslations();
+    const locale = useLocale();
     return (
         <>
             <div className="bg-white p-8 rounded-lg shadow-neutral-300 shadow-md">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Agreement and consent</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('step5.title')}</h2>
 
                 {/* Agreement & Consent Section */}
                 <div className="bg-red-50 rounded-lg px-4 py-3">
@@ -19,17 +21,17 @@ export default function Step5({ values, errors, touched, setFieldValue, setField
                             onClick={() => setFieldValue('isPrivacyExpanded', !values.isPrivacyExpanded)}
                             className="flex items-center text-sm text-gray-700 hover:text-gray-900"
                         >
-                            <span className="mr-2">{values.isPrivacyExpanded ? '▼' : '▶'}</span>
-                            Privacy statement
+                            <span className="me-2">{values.isPrivacyExpanded ? '▼' : locale == "ar" ? '◀' : '▶'}</span>
+                            {t('step5.privacyStatement')}
                         </button>
 
                         {values.isPrivacyExpanded && (
-                            <div className="mt-3 ml-6 p-4 bg-white rounded border border-gray-200">
-                                <p className="text-sm text-gray-700 leading-relaxed">
-                                    Your privacy is important to us. This privacy statement explains how we collect, use, and protect your personal information when you participate as a community evaluator in the Zero Bureaucracy Program.
+                            <div className="mt-3 p-4 bg-white rounded border border-gray-200">
+                                <p className="text-xs text-gray-700 leading-relaxed">
+                                    {t('step5.privacyText1')}
                                 </p>
-                                <p className="text-sm text-gray-700 leading-relaxed mt-3">
-                                    By participating, you consent to the collection and processing of your personal data as described in this statement. Your information will be used solely for evaluation purposes and will be handled in accordance with UAE data protection regulations.
+                                <p className="text-xs text-gray-700 leading-relaxed mt-3">
+                                    {t('step5.privacyText2')}
                                 </p>
                             </div>
                         )}
@@ -46,8 +48,8 @@ export default function Step5({ values, errors, touched, setFieldValue, setField
                                 onBlur={() => setFieldTouched('isAgreed', true)}
                                 className="mt-1 min-w-4"
                             />
-                            <label htmlFor="agreement" className="ml-3 text-sm text-gray-700">
-                                I confirm that I meet the eligibility criteria and agree to participate as a community evaluator if selected.
+                            <label htmlFor="agreement" className="ms-3 text-xs text-gray-700">
+                                {t('step5.confirmAgreement')}
                             </label>
                         </div>
                     )}
@@ -61,14 +63,14 @@ export default function Step5({ values, errors, touched, setFieldValue, setField
                         onClick={onPrevious}
                         className="px-6 py-2 text-gray-700 font-medium hover:bg-gray-50 rounded-lg border border-gray-300"
                     >
-                        Previous
+                        {t('step1.previous')}
                     </button>
                     <button
                         type="submit"
                         className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
                         disabled={!values.isAgreed}
                     >
-                        Preview
+                        {t('step5.preview')}
                     </button>
                 </div>
             </div>

@@ -1,37 +1,22 @@
-"use client";
+import { cookies } from "next/headers";
+import { getTranslations } from "next-intl/server";
+import SuccessContent from "@/components/SuccessContent";
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Cookies from "js-cookie";
-export default function SuccessPage() {
-    const router = useRouter();
-    const pathname = usePathname();
-    const [countdown, setCountdown] = useState(4);
-    const formDataCookie = Cookies.get("zeroform_data");
-    const formData = formDataCookie ? JSON.parse(formDataCookie) : null;
+const getEmploymentFromCookie = (cookieStore: Awaited<ReturnType<typeof cookies>>) => {
+    try {
+        const formDataCookie = cookieStore.get("zeroform_data")?.value;
+        const formData = formDataCookie ? JSON.parse(formDataCookie) : null;
+        return formData?.employment || null;
+    } catch {
+        return null;
+    }
+};
 
-    const employment = formData?.employment;
-
-    useEffect(() => {
-        if (countdown <= 0) {
-            // router.push(pathname.replace(/\/thanks$/, '') || '/');
-            return;
-        }
-
-        const timer = setTimeout(() => {
-            setCountdown((prev) => prev - 1);
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    }, [countdown, router, pathname]);
-
-    const handleBackClick = () => {
-        // router.push(pathname.replace(/\/success$/, '') || '/');
-    };
-
+export default async function SuccessPage() {
+    const t = await getTranslations();
+    const cookieStore = await cookies();
+    const employment = getEmploymentFromCookie(cookieStore);
     const isEmployed = employment === 'yes';
-    const successMessage = "Your nomination has been submitted successfully.";
-    const ineligibleMessage = "Sorry but you are not eligible to participate in the survey as you are currently employed by a federal entity";
 
     return (
         <div className="min-h-screen bg-linear-to-r from-[#f3e7e7] to-gray-100 flex items-center justify-center p-4">
@@ -43,25 +28,14 @@ export default function SuccessPage() {
                 </div>
 
                 {/* Heading */}
-                <h2 className="text-4xl font-bold text-gray-800 mb-4">Thank you!</h2>
+                <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('thanks.heading')}</h2>
                 {/* Message */}
                 <p className="text-gray-600 mb-6">
-                    {isEmployed ? successMessage : ineligibleMessage}
+                    {isEmployed ? t('thanks.successMessage') : t('thanks.ineligibleMessage')}
                 </p>
 
-                {/* Countdown */}
-                <p className="text-gray-500 text-sm mb-8">
-                    You will be redirected within {countdown}{" "}
-                    {countdown === 1 ? "second" : "seconds"}.
-                </p>
-
-                {/* Back Button */}
-                <button
-                    onClick={handleBackClick}
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition duration-200"
-                >
-                    Back to main site
-                </button>
+                {/* Countdown and Back Button - Client Component */}
+                <SuccessContent />
             </div>
         </div>
     );

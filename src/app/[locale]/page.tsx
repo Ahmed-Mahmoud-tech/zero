@@ -1,8 +1,11 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import MultiStepForm from "@/components/MultiStepForm";
 import LastSavedTime from "@/components/LastSavedTime";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function HomePage() {
+    const t = useTranslations();
     return (
         <>
             <div className="min-h-screen bg-gray-50 p-8 text-sm">
@@ -20,23 +23,19 @@ export default function HomePage() {
                             />
                             <div className="text-white">
                                 <h1 className="xs:text-md sm:text-xl font-bold md:text-2xl ms-4">
-                                    Community Evaluator Nomination
+                                    {t('step1.title')}
                                 </h1>
                             </div>
                         </div>
                     </div>
 
                     {/* Main Content */}
-                    <div className="py-8">
+                    <div className="py-4">
                         {/* Title and Language */}
                         <div className="flex justify-between items-center mb-2">
                             <LastSavedTime />
-
-                            <button className="text-gray-700 hover:text-gray-900 border border-gray-300 px-4 py-1 font-bold rounded-lg">
-                                العربية
-                            </button>
+                            <LanguageSwitcher />
                         </div>
-
                         {/* Multi-Step Form */}
                         <MultiStepForm />
                     </div>
