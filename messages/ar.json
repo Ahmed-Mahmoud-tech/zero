@@ -7,7 +7,7 @@
     "yes": "نعم",
     "no": "لا",
     "whatYouWillComplete": "ما ستكمله:",
-    "item1": "حول نفسك (والذي سيتضمن وصف الوظيفة والتفاصيل)",
+    "item1": "عن نفسك (والذي سيتضمن وصف الوظيفة والتفاصيل)",
     "item2": "الغرض من المشاركة",
     "item3": "خبرة التقييم",
     "saveNote": "يمكنك حفظ تقدمك في أي وقت. معلوماتك آمنة وتُستخدم فقط لتقييم ترشيحك.",
@@ -15,7 +15,10 @@
     "next": "التالي"
   },
   "step2": {
-    "title": "حول نفسك",
+    "title": "عن نفسك",
+    "name": "الاسم",
+    "emiratesId": "رقم الهوية الإماراتية",
+    "gender": "الجنس",
     "ageRange": "فئة العمر",
     "selectAgeRange": "اختر فئة العمر",
     "age1": "18-24",
@@ -25,25 +28,34 @@
     "age5": "55+",
     "emirate": "إمارة الإقامة",
     "selectEmirate": "اختر إمارة",
+    "abu_dhabi": "أبوظبي",
+    "dubai": "دبي",
+    "sharjah": "الشارقة",
+    "ajman": "عجمان",
+    "umm_al_quwain": "أم القيوين",
+    "ras_al_khaimah": "رأس الخيمة",
+    "fujairah": "الفجيرة",
     "employmentStatus": "الحالة الوظيفية الحالية",
     "selectEmploymentStatus": "اختر حالة التوظيف",
     "employed": "موظف",
-    "selfEmployed": "عامل حر",
+    "self_employed": "أعمال حرة",
     "student": "طالب",
     "retired": "متقاعد",
-    "notEmployed": "غير موظف",
+    "not_employed": "غير موظف",
+    "other": "أخرى",
     "sector": "قطاع التوظيف",
     "selectSector": "اختر قطاعاً",
-    "government": "حكومي",
-    "nonprofit": "منظمة غير ربحية",
-    "academia": "أكاديمية",
-    "other": "آخر",
+    "private": "القطاع الخاص",
+    "local_government": "حكومة محلية",
+    "non_profit": "غير ربحي",
+    "academia": "أكاديمي",
     "fieldOfWork": "مجال العمل / التخصص",
     "selectField": "اختر مجالاً",
     "education": "التعليم",
-    "healthcare": "الرعاية الصحية",
-    "technology": "التكنولوجيا",
-    "businessDevelopment": "تطوير الأعمال",
+    "healthcare": "الصحة",
+    "technology": "التقنية",
+    "business": "الأعمال",
+    "community": "تنمية المجتمع",
     "workplace": "اسم مكان العمل",
     "yearsExperience": "سنوات الخبرة",
     "cvFile": "تحميل سيرتك الذاتية",
@@ -73,10 +85,10 @@
     "haveParticipated": "هل سبق لك المشاركة في لجان المحلفين أو لجان التقييم أو أنشطة التقييم؟",
     "typeOfExperience": "نوع الخبرة",
     "selectOption": "اختر خياراً",
-    "professional": "الجوائز المهنية",
-    "jury": "لجان المحلفين",
-    "assessment": "لجان التقييم",
-    "evaluation": "أنشطة التقييم",
+    "type_academic": "تحكيم أكاديمي",
+    "type_awards": "جوائز مهنية",
+    "type_gov": "تقييمات حكومية",
+    "other": "أخرى",
     "describeExperience": "صف خبرتك"
   },
   "step5": {
@@ -144,5 +156,49 @@
     "arabic": "العربية",
     "yes": "نعم",
     "no": "لا"
+  },
+  "options": {
+    "gender": {
+      "male": "ذكر",
+      "female": "أنثى"
+    },
+    "emirates": {
+      "abu_dhabi": "أبوظبي",
+      "dubai": "دبي",
+      "sharjah": "الشارقة",
+      "ajman": "عجمان",
+      "umm_al_quwain": "أم القيوين",
+      "ras_al_khaimah": "رأس الخيمة",
+      "fujairah": "الفجيرة"
+    },
+    "employmentStatus": {
+      "employed": "موظف",
+      "self_employed": "أعمال حرة",
+      "student": "طالب",
+      "retired": "متقاعد",
+      "not_employed": "غير موظف",
+      "other": "أخرى"
+    },
+    "sector": {
+      "private": "القطاع الخاص",
+      "local_government": "حكومة محلية",
+      "non_profit": "غير ربحي",
+      "academia": "أكاديمي",
+      "other": "أخرى"
+    },
+    "fieldOfWork": {
+      "education": "التعليم",
+      "healthcare": "الصحة",
+      "technology": "التقنية",
+      "business": "الأعمال",
+      "community": "تنمية المجتمع",
+      "other": "أخرى"
+    },
+    "experienceType": {
+      "type_academic": "تحكيم أكاديمي",
+      "type_awards": "جوائز مهنية",
+      "type_gov": "تقييمات حكومية",
+      "other": "أخرى"
+    }
   }
 }

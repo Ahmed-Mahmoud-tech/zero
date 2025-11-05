@@ -16,6 +16,9 @@
   },
   "step2": {
     "title": "About You",
+    "name": "Name",
+    "emiratesId": "Emirates ID",
+    "gender": "Gender",
     "ageRange": "Age Range",
     "selectAgeRange": "Select an age range",
     "age1": "18-24",
@@ -25,25 +28,34 @@
     "age5": "55+",
     "emirate": "Emirate of Residence",
     "selectEmirate": "Select an emirate",
+    "abu_dhabi": "Abu Dhabi",
+    "dubai": "Dubai",
+    "sharjah": "Sharjah",
+    "ajman": "Ajman",
+    "umm_al_quwain": "Umm Al Quwain",
+    "ras_al_khaimah": "Ras Al Khaimah",
+    "fujairah": "Fujairah",
     "employmentStatus": "Current Employment Status",
     "selectEmploymentStatus": "Select employment status",
     "employed": "Employed",
-    "selfEmployed": "Self-employed",
+    "self_employed": "Self-employed",
     "student": "Student",
     "retired": "Retired",
-    "notEmployed": "Not employed",
+    "not_employed": "Not employed",
+    "other": "Other",
     "sector": "Sector of Employment",
     "selectSector": "Select a sector",
-    "government": "Government",
-    "nonprofit": "Non-profit",
+    "private": "Private sector",
+    "local_government": "Local government",
+    "non_profit": "Non-profit",
     "academia": "Academia",
-    "other": "Other",
     "fieldOfWork": "Field of Work / Specialization",
     "selectField": "Select a field",
     "education": "Education",
     "healthcare": "Healthcare",
     "technology": "Technology",
-    "businessDevelopment": "Business Development",
+    "business": "Business",
+    "community": "Community development",
     "workplace": "Name of workplace",
     "yearsExperience": "Years of experience",
     "cvFile": "Upload your CV",
@@ -73,10 +85,10 @@
     "haveParticipated": "Have you ever participated in jury panels, assessment committees, or evaluation activities?",
     "typeOfExperience": "Type of experience",
     "selectOption": "Select an option",
-    "professional": "Professional awards",
-    "jury": "Jury panels",
-    "assessment": "Assessment committees",
-    "evaluation": "Evaluation activities",
+    "type_academic": "Academic jury",
+    "type_awards": "Professional awards",
+    "type_gov": "Government assessments",
+    "other": "Other",
     "describeExperience": "Describe your experience"
   },
   "step5": {
@@ -144,5 +156,49 @@
     "arabic": "العربية",
     "yes": "Yes",
     "no": "No"
+  },
+  "options": {
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "emirates": {
+      "abu_dhabi": "Abu Dhabi",
+      "dubai": "Dubai",
+      "sharjah": "Sharjah",
+      "ajman": "Ajman",
+      "umm_al_quwain": "Umm Al Quwain",
+      "ras_al_khaimah": "Ras Al Khaimah",
+      "fujairah": "Fujairah"
+    },
+    "employmentStatus": {
+      "employed": "Employed",
+      "self_employed": "Self-employed",
+      "student": "Student",
+      "retired": "Retired",
+      "not_employed": "Not employed",
+      "other": "Other"
+    },
+    "sector": {
+      "private": "Private sector",
+      "local_government": "Local government",
+      "non_profit": "Non-profit",
+      "academia": "Academia",
+      "other": "Other"
+    },
+    "fieldOfWork": {
+      "education": "Education",
+      "healthcare": "Healthcare",
+      "technology": "Technology",
+      "business": "Business",
+      "community": "Community development",
+      "other": "Other"
+    },
+    "experienceType": {
+      "type_academic": "Academic jury",
+      "type_awards": "Professional awards",
+      "type_gov": "Government assessments",
+      "other": "Other"
+    }
   }
 }

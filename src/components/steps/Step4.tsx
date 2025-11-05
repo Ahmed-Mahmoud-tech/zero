@@ -3,6 +3,7 @@
 import ErrorText from '../ErrorText';
 import { StepProps } from '@/types/form';
 import { useTranslations } from 'next-intl';
+import { experienceTypeOptions } from '@/lib/options';
 
 export default function Step4({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
     const t = useTranslations();
@@ -48,11 +49,11 @@ export default function Step4({ values, errors, touched, setFieldValue, setField
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-red-600"
                         >
                             <option value="">{t('step4.selectOption')}</option>
-                            <option value="professional">{t('step4.professional')}</option>
-                            <option value="jury">{t('step4.jury')}</option>
-                            <option value="assessment">{t('step4.assessment')}</option>
-                            <option value="evaluation">{t('step4.evaluation')}</option>
-                            <option value="other">{t('step3.otherExperience')}</option>
+                            {experienceTypeOptions.map((value) => (
+                                <option key={value} value={value}>
+                                    {t(`options.experienceType.${value}`)}
+                                </option>
+                            ))}
                         </select>
                         <ErrorText error={errors.experienceType} touched={touched.experienceType} />
                     </div>

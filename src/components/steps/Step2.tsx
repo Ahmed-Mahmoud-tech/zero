@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { StepProps } from "@/types/form";
 import ErrorText from "../ErrorText";
+import { emirateOptions, statusOptions, sectorOptions, fieldOptions } from "@/lib/options";
 
 export default function Step2({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
     const t = useTranslations();
@@ -140,12 +141,12 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                     <div className="flex justify-between gap-4 flex-wrap">
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
-                                Name: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
+                                {t('step2.name')}: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
                             </label>
                         </div>
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
-                                Emirates ID: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
+                                {t('step2.emiratesId')}: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
                             </label>
 
                         </div>
@@ -153,7 +154,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
-                            Gender: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
+                            {t('step2.gender')}: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
                         </label>
 
                     </div>
@@ -192,13 +193,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
                             <option value="">{t('step2.selectEmirate')}</option>
-                            <option value="Abu Dhabi">Abu Dhabi</option>
-                            <option value="Dubai">Dubai</option>
-                            <option value="Sharjah">Sharjah</option>
-                            <option value="Ajman">Ajman</option>
-                            <option value="Umm Al Quwain">Umm Al Quwain</option>
-                            <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-                            <option value="Fujairah">Fujairah</option>
+                            {emirateOptions.map((value) => (
+                                <option key={value} value={value}>
+                                    {t(`options.emirates.${value}`)}
+                                </option>
+                            ))}
                         </select>
                         <ErrorText error={errors.emirate} touched={touched.emirate} />
                     </div>
@@ -221,10 +220,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
                             <option value="">{t('step2.selectEmploymentStatus')}</option>
-                            <option value="Employed">{t('step2.employed')}</option>
-                            <option value="Self-employed">{t('step2.selfEmployed')}</option>
-                            <option value="Retired">{t('step2.retired')}</option>
-                            <option value="Unemployed">{t('step2.notEmployed')}</option>
+                            {statusOptions.map((value) => (
+                                <option key={value} value={value}>
+                                    {t(`options.employmentStatus.${value}`)}
+                                </option>
+                            ))}
                         </select>
                         <ErrorText error={errors.employmentStatus} touched={touched.employmentStatus} />
                     </div>
@@ -240,9 +240,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
                             <option value="">{t('step2.selectSector')}</option>
-                            <option value="Public">{t('step2.government')}</option>
-                            <option value="Private">Private</option>
-                            <option value="Non-profit">{t('step2.nonprofit')}</option>
+                            {sectorOptions.map((value) => (
+                                <option key={value} value={value}>
+                                    {t(`options.sector.${value}`)}
+                                </option>
+                            ))}
                         </select>
                         <ErrorText error={errors.sector} touched={touched.sector} />
                     </div>
@@ -258,11 +260,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
                         >
                             <option value="">{t('step2.selectField')}</option>
-                            <option value="Technology">Technology</option>
-                            <option value="Healthcare">{t('step2.healthcare')}</option>
-                            <option value="Business">{t('step2.businessDevelopment')}</option>
-                            <option value="Education">{t('step2.education')}</option>
-                            <option value="Other">{t('step2.other')}</option>
+                            {fieldOptions.map((value) => (
+                                <option key={value} value={value}>
+                                    {t(`options.fieldOfWork.${value}`)}
+                                </option>
+                            ))}
                         </select>
                         <ErrorText error={errors.fieldOfWork} touched={touched.fieldOfWork} />
                     </div>

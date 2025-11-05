@@ -22,10 +22,9 @@ export default function Step6({ values, onPrevious, onStepChange }: StepProps) {
             'policy': t('step3.policy'),
             'leadership': t('step3.leadership'),
             'other': t('step3.otherExperience'),
-            'professional': t('step4.professional'),
-            'jury': t('step4.jury'),
-            'assessment': t('step4.assessment'),
-            'evaluation': t('step4.evaluation'),
+            'type_academic': t('step4.type_academic'),
+            'type_awards': t('step4.type_awards'),
+            'type_gov': t('step4.type_gov'),
         };
         return mapping[value] || value;
     };
@@ -51,7 +50,7 @@ export default function Step6({ values, onPrevious, onStepChange }: StepProps) {
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-600 mb-2">{t('step6.emirateOfResidence')}</p>
-                                    <p className="text-gray-900 font-medium">{values.emirate || t('step6.notSpecified')}</p>
+                                    <p className="text-gray-900 font-medium">{t(`step2.${values.emirate}`) || t('step6.notSpecified')}</p>
                                 </div>
                             </div>
 
@@ -60,15 +59,15 @@ export default function Step6({ values, onPrevious, onStepChange }: StepProps) {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <p className="text-xs text-gray-600 mb-2">{t('step6.currentEmploymentStatus')}</p>
-                                    <p className="text-gray-900 font-medium">{values.employmentStatus || t('step6.notSpecified')}</p>
+                                    <p className="text-gray-900 font-medium">{t(`step2.${values.employmentStatus}`) || t('step6.notSpecified')}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-600 mb-2">{t('step6.sectorOfEmployment')}</p>
-                                    <p className="text-gray-900 font-medium">{values.sector || t('step6.notSpecified')}</p>
+                                    <p className="text-gray-900 font-medium">{t(`step2.${values.sector}`) || t('step6.notSpecified')}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-600 mb-2">{t('step6.fieldOfWorkSpecialization')}</p>
-                                    <p className="text-gray-900 font-medium">{values.fieldOfWork || t('step6.notSpecified')}</p>
+                                    <p className="text-gray-900 font-medium">{t(`step2.${values.fieldOfWork}`) || t('step6.notSpecified')}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-600 mb-2">{t('step6.nameOfWorkplace')}</p>
@@ -157,7 +156,7 @@ export default function Step6({ values, onPrevious, onStepChange }: StepProps) {
                                 <>
                                     <div className="mb-6">
                                         <p className="text-xs font-semibold text-gray-600 mb-2">{t('step6.typeOfExperience')}</p>
-                                        <p className="text-gray-900 font-medium">{getExperienceLabel(values.experienceType) || t('step6.notSpecified')}</p>
+                                        <p className="text-gray-900 font-medium">{t(`step4.${values.experienceType}`) || t('step6.notSpecified')}</p>
                                     </div>
 
                                     <div>
