@@ -10,6 +10,7 @@ import Step4 from './steps/Step4';
 import Step5 from './steps/Step5';
 import Step6 from './steps/Step6';
 import { saveFormDataToCookie, getFormDataFromCookie } from '@/lib/cookieUtils';
+import Cookies from "js-cookie";
 
 const validationSchema = Yup.object({
     // Step 1
@@ -100,7 +101,7 @@ const initialValues = {
 export default function MultiStepForm() {
     const initializeRef = useRef(false);
     const [mounted, setMounted] = useState(false);
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(parseInt(Cookies.get('zeroform_step') as string, 10) || 1);
     const [formInitialValues, setFormInitialValues] = useState(initialValues);
     const formValuesRef = useRef<typeof initialValues>(initialValues);
     const prevValuesRef = useRef<string>('');
@@ -143,11 +144,14 @@ export default function MultiStepForm() {
                 }
             }, 500);
         };
+
+        console.log("ddddddddddddddddd", currentStep);
+        Cookies.set(`zeroform_step`, JSON.stringify(currentStep));
     }, [currentStep]);
 
     // Don't render form until mounted on client to prevent hydration errors
     if (!mounted) {
-        return null;
+        return <div />;
     }
 
     const totalSteps = 6;
