@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Step1 from './steps/Step1';
@@ -8,6 +8,7 @@ import Step2 from './steps/Step2';
 import Step3 from './steps/Step3';
 import Step4 from './steps/Step4';
 import Step5 from './steps/Step5';
+import { saveFormDataToCookie, getFormDataFromCookie } from '@/lib/cookieUtils';
 
 const validationSchema = Yup.object({
     // Step 1
@@ -92,7 +93,32 @@ const initialValues = {
 };
 
 export default function MultiStepForm() {
+    const initializeRef = useRef(false);
+    const [mounted, setMounted] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
+    const [formInitialValues, setFormInitialValues] = useState(initialValues);
+
+    // Initialize on client side only (run once)
+    useEffect(() => {
+        if (!initializeRef.current) {
+            initializeRef.current = true;
+            const { formData, currentStep: savedStep } = getFormDataFromCookie();
+            if (formData) {
+                setFormInitialValues((prev) => ({
+                    ...prev,
+                    ...formData,
+                } as typeof initialValues));
+                setCurrentStep(savedStep);
+            }
+            setMounted(true);
+        }
+    }, []);
+
+    // Don't render form until mounted on client to prevent hydration errors
+    if (!mounted) {
+        return null;
+    }
+
     const totalSteps = 5;
 
     // Get fields for current step
@@ -179,97 +205,104 @@ export default function MultiStepForm() {
 
     return (
         <Formik
-            initialValues={initialValues}
+            initialValues={formInitialValues as typeof initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
             validateOnChange={true}
             validateOnBlur={true}
         >
-            {({ values, errors, touched, setFieldValue, setFieldTouched, validateForm, setTouched }) => (
-                <Form>
-                    {/* Progress indicator - hidden on step 1 */}
-                    {currentStep > 1 && (
-                        <div className="mb-8">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-gray-700 font-bold">Form progress:</span>
-                                <span className="text-md font-bold text-red-600">
-                                    {Math.round(getProgressPercentage())}%
-                                </span>
+            {({ values, errors, touched, setFieldValue, setFieldTouched, validateForm, setTouched }) => {
+                // Save form data to cookies whenever values change
+                if (typeof window !== 'undefined') {
+                    saveFormDataToCookie(values, currentStep);
+                }
+
+                return (
+                    <Form>
+                        {/* Progress indicator - hidden on step 1 */}
+                        {currentStep > 1 && (
+                            <div className="mb-8">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-sm text-gray-700 font-bold">Form progress:</span>
+                                    <span className="text-md font-bold text-red-600">
+                                        {Math.round(getProgressPercentage())}%
+                                    </span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                    <div
+                                        className="bg-red-600 h-2 rounded-full transition-all duration-300"
+                                        style={{ width: `${getProgressPercentage()}%` }}
+                                    ></div>
+                                </div>
                             </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                                <div
-                                    className="bg-red-600 h-2 rounded-full transition-all duration-300"
-                                    style={{ width: `${getProgressPercentage()}%` }}
-                                ></div>
-                            </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* Step 1 */}
-                    {currentStep === 1 && (
-                        <Step1
-                            values={values}
-                            errors={errors as Record<string, string | string[]>}
-                            touched={touched}
-                            setFieldValue={setFieldValue}
-                            setFieldTouched={setFieldTouched}
-                            onNext={() => handleNext(validateForm, setTouched)}
-                            onPrevious={handlePrevious}
-                        />
-                    )}
+                        {/* Step 1 */}
+                        {currentStep === 1 && (
+                            <Step1
+                                values={values}
+                                errors={errors as Record<string, string | string[]>}
+                                touched={touched}
+                                setFieldValue={setFieldValue}
+                                setFieldTouched={setFieldTouched}
+                                onNext={() => handleNext(validateForm, setTouched)}
+                                onPrevious={handlePrevious}
+                            />
+                        )}
 
-                    {/* Step 2 */}
-                    {currentStep === 2 && (
-                        <Step2
-                            values={values}
-                            errors={errors as Record<string, string | string[]>}
-                            touched={touched}
-                            setFieldValue={setFieldValue}
-                            setFieldTouched={setFieldTouched}
-                            onNext={() => handleNext(validateForm, setTouched)}
-                            onPrevious={handlePrevious}
-                        />
-                    )}
+                        {/* Step 2 */}
+                        {currentStep === 2 && (
+                            <Step2
+                                values={values}
+                                errors={errors as Record<string, string | string[]>}
+                                touched={touched}
+                                setFieldValue={setFieldValue}
+                                setFieldTouched={setFieldTouched}
+                                onNext={() => handleNext(validateForm, setTouched)}
+                                onPrevious={handlePrevious}
+                            />
+                        )}
 
-                    {/* Step 3 */}
-                    {currentStep === 3 && (
-                        <Step3
-                            values={values}
-                            errors={errors as Record<string, string | string[]>}
-                            touched={touched}
-                            setFieldValue={setFieldValue}
-                            setFieldTouched={setFieldTouched}
-                            onNext={() => handleNext(validateForm, setTouched)}
-                            onPrevious={handlePrevious}
-                        />
-                    )}
+                        {/* Step 3 */}
+                        {currentStep === 3 && (
+                            <Step3
+                                values={values}
+                                errors={errors as Record<string, string | string[]>}
+                                touched={touched}
+                                setFieldValue={setFieldValue}
+                                setFieldTouched={setFieldTouched}
+                                onNext={() => handleNext(validateForm, setTouched)}
+                                onPrevious={handlePrevious}
+                            />
+                        )}
 
-                    {/* Step 4 */}
-                    {currentStep === 4 && (
-                        <Step4
-                            values={values}
-                            errors={errors as Record<string, string | string[]>}
-                            touched={touched}
-                            setFieldValue={setFieldValue}
-                            setFieldTouched={setFieldTouched}
-                            onNext={() => handleNext(validateForm, setTouched)}
-                            onPrevious={handlePrevious}
-                        />
-                    )}
+                        {/* Step 4 */}
+                        {currentStep === 4 && (
+                            <Step4
+                                values={values}
+                                errors={errors as Record<string, string | string[]>}
+                                touched={touched}
+                                setFieldValue={setFieldValue}
+                                setFieldTouched={setFieldTouched}
+                                onNext={() => handleNext(validateForm, setTouched)}
+                                onPrevious={handlePrevious}
+                            />
+                        )}
 
-                    {/* Step 5 */}
-                    {currentStep === 5 && (
-                        <Step5
-                            values={values}
-                            errors={errors as Record<string, string | string[]>}
-                            touched={touched}
-                            setFieldValue={setFieldValue}
-                            setFieldTouched={setFieldTouched}
-                            onPrevious={handlePrevious}
-                        />
-                    )}
-                </Form>
-            )}
+                        {/* Step 5 */}
+                        {currentStep === 5 && (
+                            <Step5
+                                values={values}
+                                errors={errors as Record<string, string | string[]>}
+                                touched={touched}
+                                setFieldValue={setFieldValue}
+                                setFieldTouched={setFieldTouched}
+                                onPrevious={handlePrevious}
+                            />
+                        )}
+                    </Form>
+                );
+            }}
         </Formik>
     );
 }

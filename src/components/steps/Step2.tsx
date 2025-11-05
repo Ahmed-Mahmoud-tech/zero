@@ -1,16 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 import { StepProps } from "@/types/form";
 import ErrorText from "../ErrorText";
 
 export default function Step2({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
-    const [uploadedFile, setUploadedFile] = useState<File | null>(values.cvFile);
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+    const prevCvFileRef = useRef<File | null>(null);
+
+    // Sync uploadedFile with Formik's cvFile value
+    useEffect(() => {
+        if (values.cvFile instanceof File && values.cvFile !== prevCvFileRef.current) {
+            Promise.resolve().then(() => {
+                setUploadedFile(values.cvFile);
+            });
+            prevCvFileRef.current = values.cvFile;
+        } else if (values.cvFile && typeof values.cvFile === 'object' && 'name' in values.cvFile) {
+            // This is a placeholder object from cookies, create a File-like object for display
+            const fileObj = values.cvFile as unknown as Record<string, unknown>;
+            const file = new File([], fileObj.name as string, { type: 'application/octet-stream' });
+            Promise.resolve().then(() => {
+                setUploadedFile(file);
+            });
+            prevCvFileRef.current = file;
+        }
+    }, [values.cvFile]);
+
+    const validateFile = (file: File): string | null => {
+        const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+        const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
+
+        if (!allowedTypes.includes(file.type)) {
+            return 'Only PDF and DOCX files are allowed';
+        }
+
+        if (file.size > maxSize) {
+            return `File size exceeds 10MB limit. Your file is ${(file.size / (1024 * 1024)).toFixed(2)}MB`;
+        }
+
+        return null;
+    };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            const error = validateFile(file);
+            if (error) {
+                toast.error(error);
+                event.target.value = '';
+                return;
+            }
             setUploadedFile(file);
             setFieldValue('cvFile', file);
         }
@@ -39,6 +80,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         setIsDragging(false);
         const file = e.dataTransfer.files?.[0];
         if (file) {
+            const error = validateFile(file);
+            if (error) {
+                toast.error(error);
+                return;
+            }
             setUploadedFile(file);
             setFieldValue('cvFile', file);
         }
@@ -52,7 +98,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
 
     const handleFileSubmit = async () => {
         if (!uploadedFile) {
-            alert("Please select a file first");
+            toast.warning("Please select a file first");
             return;
         }
 
@@ -70,13 +116,13 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                 console.log("File uploaded successfully:", data);
                 // Save file to Formik
                 setFieldValue('cvFile', uploadedFile);
-                alert("File uploaded successfully!");
+                toast.success("File uploaded successfully!");
             } else {
-                alert("Failed to upload file");
+                toast.error("Failed to upload file");
             }
         } catch (error) {
             console.error("Error uploading file:", error);
-            alert("Error uploading file");
+            toast.error("Error uploading file");
         }
     };
 

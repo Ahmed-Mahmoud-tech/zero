@@ -1,5 +1,6 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { ToastContainer } from 'react-toastify';
 import '../globals.css';
 type Props = {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export default async function RootLayout({
       <body className='bg-black'>
         <NextIntlClientProvider messages={messages}>
           {children}
+          <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={locale === 'ar'} pauseOnFocusLoss draggable pauseOnHover />
         </NextIntlClientProvider>
       </body>
     </html>

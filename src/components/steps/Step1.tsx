@@ -1,7 +1,7 @@
 import ErrorText from '../ErrorText';
 import { StepProps } from '@/types/form';
 
-export default function Step1({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
+export default function Step1({ values, errors, touched, setFieldValue, setFieldTouched, onNext }: StepProps) {
 
     return (
         <div className="bg-white p-8 rounded-lg shadow-neutral-300 shadow-md">
