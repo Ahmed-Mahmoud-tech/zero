@@ -130,38 +130,37 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         <>
             <div className="bg-white p-8 rounded-lg shadow-neutral-300 shadow-md">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                    About You / Can&apos;t be edited
+                    About You
                 </h2>
 
                 {/* Personal Information Section */}
                 <div className="mb-8 space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex justify-between gap-4 flex-wrap">
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
-                                Name:
+                                Name: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
                             </label>
-                            <p className="text-sm text-gray-600">UAE Pass/Endpoint</p>
                         </div>
                         <div>
                             <label className="block text-sm font-bold text-gray-700 mb-1">
-                                Emirates ID:
+                                Emirates ID: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
                             </label>
-                            <p className="text-sm text-gray-600">UAE Pass/Endpoint</p>
+
                         </div>
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">
-                            Gender:
+                            Gender: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
                         </label>
-                        <p className="text-sm text-gray-600">UAE Pass/Endpoint</p>
+
                     </div>
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-3">
                             Age Range:
                         </label>
-                        <div className="flex gap-14">
+                        <div className="flex gap-x-14 gap-y-4 flex-wrap">
                             {["18-24", "25-34", "35-44", "45-54", "55+"].map((range) => (
                                 <label key={range} className="flex items-center cursor-pointer">
                                     <input

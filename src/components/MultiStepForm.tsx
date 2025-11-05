@@ -40,7 +40,11 @@ const validationSchema = Yup.object({
         then: (schema) => schema.required('This field is required'),
         otherwise: (schema) => schema,
     }),
-    evaluationExperience: Yup.string().required('This field is required'),
+    evaluationExperience: Yup.string().when('selectedExperiences', {
+        is: (experiences: string[]) => experiences?.includes('other'),
+        then: (schema) => schema.required('This field is required'),
+        otherwise: (schema) => schema,
+    }),
 
     // Step 4
     hasExperience: Yup.string().required('This field is required'),

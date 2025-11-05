@@ -56,14 +56,14 @@ export default function HomePage() {
                         <div className="flex items-center justify-between">
                             <Image
                                 src="/ZGBLogo.png"
-                                alt="Zero Bureaucracy Program Logo"
+                                alt="Zero Bureaucracy Program Logo me-2 inline-block"
                                 width={150}
                                 height={50}
                                 priority
-                                className="h-auto"
+                                className="h-auto max-w-[45%]"
                             />
                             <div className="text-white">
-                                <h1 className="text-2xl font-bold">
+                                <h1 className="xs:text-md sm:text-xl font-bold md:text-2xl ms-4">
                                     Community Evaluator Nomination
                                 </h1>
                             </div>

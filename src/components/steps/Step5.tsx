@@ -44,7 +44,7 @@ export default function Step5({ values, errors, touched, setFieldValue, setField
                                 checked={values.isAgreed}
                                 onChange={(e) => setFieldValue('isAgreed', e.target.checked)}
                                 onBlur={() => setFieldTouched('isAgreed', true)}
-                                className="mt-1"
+                                className="mt-1 min-w-4"
                             />
                             <label htmlFor="agreement" className="ml-3 text-sm text-gray-700">
                                 I confirm that I meet the eligibility criteria and agree to participate as a community evaluator if selected.

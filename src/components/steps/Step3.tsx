@@ -68,37 +68,27 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
                     </div>
                     <ErrorText error={errors.selectedExperiences} touched={touched.selectedExperiences} />
 
-                    {values.selectedExperiences?.includes('other') && (
-                        <div className="mt-4">
-                            <input
-                                type="text"
-                                value={values.otherSpecify}
-                                onChange={(e) => setFieldValue('otherSpecify', e.target.value)}
-                                onBlur={() => setFieldTouched('otherSpecify', true)}
-                                placeholder="Please specify"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600 text-sm"
-                            />
-                            <ErrorText error={errors.otherSpecify} touched={touched.otherSpecify} />
-                        </div>
-                    )}
+
                 </div>
 
                 {/* Question 3: Evaluation experience */}
-                <div className="mb-8">
-                    <label className="block text-sm font-bold text-gray-900 mb-2">
-                        Please specify
-                    </label>
-                    <input
-                        type="text"
-                        name="evaluationExperience"
-                        value={values.evaluationExperience}
-                        onChange={(e) => setFieldValue('evaluationExperience', e.target.value)}
-                        onBlur={() => setFieldTouched('evaluationExperience', true)}
-                        placeholder="Describe your evaluation experience..."
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600"
-                    />
-                    <ErrorText error={errors.evaluationExperience} touched={touched.evaluationExperience} />
-                </div>
+                {values.selectedExperiences?.includes('other') && (
+                    <div className="mb-8">
+                        <label className="block text-sm font-bold text-gray-900 mb-2">
+                            Please specify
+                        </label>
+                        <input
+                            type="text"
+                            name="evaluationExperience"
+                            value={values.evaluationExperience}
+                            onChange={(e) => setFieldValue('evaluationExperience', e.target.value)}
+                            onBlur={() => setFieldTouched('evaluationExperience', true)}
+                            placeholder="Describe your evaluation experience..."
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600"
+                        />
+                        <ErrorText error={errors.evaluationExperience} touched={touched.evaluationExperience} />
+                    </div>
+                )}
 
                 {/* Buttons */}
                 <div className="flex justify-between border-gray-200">
@@ -109,7 +99,7 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
                         Next
                     </button>
                 </div>
-            </div>
+            </div >
         </>
     );
 }
