@@ -20,7 +20,7 @@ const formatDateTime = (date: Date): string => {
 };
 
 export default function LastSavedTime() {
-    const [lastSaved, setLastSaved] = useState<string>("Never");
+    const [lastSaved, setLastSaved] = useState<string>(formatDateTime(new Date()));
     const initRef = useRef(false);
 
     useEffect(() => {

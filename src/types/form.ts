@@ -36,4 +36,5 @@ export interface StepProps {
   setFieldTouched: (field: string, touched?: boolean) => void;
   onNext?: () => void;
   onPrevious?: () => void;
+  onStepChange?: (step: number) => void;
 }

@@ -118,8 +118,9 @@ export default function MultiStepForm() {
                         ...prev,
                         ...formData,
                     } as typeof initialValues));
-                    setCurrentStep(savedStep);
                 }
+                // Always restore the saved step from cookie
+                setCurrentStep(savedStep);
                 setMounted(true);
             }, 0);
 
@@ -144,6 +145,13 @@ export default function MultiStepForm() {
             }, 500);
         };
     }, [currentStep]);
+
+    // Save step immediately when it changes
+    useEffect(() => {
+        if (mounted && typeof window !== 'undefined') {
+            saveFormDataToCookie(formValuesRef.current, currentStep);
+        }
+    }, [currentStep, mounted]);
 
     // Don't render form until mounted on client to prevent hydration errors
     if (!mounted) {
