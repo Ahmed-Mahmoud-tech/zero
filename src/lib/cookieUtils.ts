@@ -18,7 +18,9 @@ export const saveFormDataToCookie = (
       localStorage.setItem(LAST_SAVED_COOKIE, now);
       console.log("Dispatching formDataSaved event with timestamp:", now);
       // Dispatch custom event to notify listeners in same tab
-      window.dispatchEvent(new CustomEvent('formDataSaved', { detail: { timestamp: now } }));
+      window.dispatchEvent(
+        new CustomEvent("formDataSaved", { detail: { timestamp: now } })
+      );
     }
 
     // Save File metadata separately (filename only, not the actual file)

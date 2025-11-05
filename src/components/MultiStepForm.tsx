@@ -117,7 +117,7 @@ export default function MultiStepForm() {
                 }
                 setMounted(true);
             }, 0);
-            
+
             return () => clearTimeout(timeoutId);
         }
     }, []);
@@ -237,7 +237,7 @@ export default function MultiStepForm() {
             {({ values, errors, touched, setFieldValue, setFieldTouched, validateForm, setTouched }) => {
                 // Update ref with current values for use in effects/callbacks
                 formValuesRef.current = values;
-                
+
                 // Check if values changed and trigger save (using callback to avoid setState)
                 const currentValuesStr = JSON.stringify(values);
                 if (mounted && prevValuesRef.current !== currentValuesStr) {
