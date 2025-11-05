@@ -9,7 +9,7 @@ export default function Step6({ values, onPrevious, onStepChange }: StepProps) {
 
     const handleSubmit = () => {
         const thanksPath = pathname.replace(/\/[^/]*$/, '/thanks');
-        const urlWithParams = `${thanksPath}?employment=${values.employment}`;
+        const urlWithParams = `${thanksPath}`;
         router.push(urlWithParams);
     };
 

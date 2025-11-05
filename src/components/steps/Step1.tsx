@@ -69,22 +69,6 @@ export default function Step1({ values, errors, touched, setFieldValue, setField
                 You can save your progress at any time. Your information is secure and used only to evaluate your nomination.
             </div>
 
-
-            {/* Checkbox */}
-            {/* <div className="mb-6 flex items-center">
-                <div className="flex items-center h-6">
-                    <input
-                        type="checkbox"
-                        id="confirm"
-                        className="w-4 h-4 bg-red-600"
-                    />
-                </div>
-                <label htmlFor="confirm" className="ml-3 text-gray-700 font-bold text-xs">
-                    I confirm the accuracy of the information provided.
-                </label>
-            </div> */}
-
-            {/* Buttons */}
             <div className="flex justify-between pt-2">
                 <button
                     type="button"

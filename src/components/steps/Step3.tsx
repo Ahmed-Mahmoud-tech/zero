@@ -5,6 +5,11 @@ import ErrorText from '../ErrorText';
 
 export default function Step3({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
 
+    const getWordCount = (text: string): number => {
+        if (!text) return 0;
+        return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    };
+
     const handleCheckboxChange = (value: string) => {
         const currentExperiences = values.selectedExperiences || [];
         const newExperiences = currentExperiences.includes(value)
@@ -43,7 +48,7 @@ export default function Step3({ values, errors, touched, setFieldValue, setField
                         rows={4}
                     />
                     <ErrorText error={errors.purposeText} touched={touched.purposeText} />
-                    <p className="text-xs text-gray-500 mt-1">0/500 words</p>
+                    <p className="text-xs text-gray-500 mt-1">{getWordCount(values.purposeText)}/500 words</p>
                 </div>
 
                 {/* Question 2: Relevant experience */}

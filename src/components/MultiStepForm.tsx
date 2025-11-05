@@ -11,6 +11,7 @@ import Step5 from './steps/Step5';
 import Step6 from './steps/Step6';
 import { saveFormDataToCookie, getFormDataFromCookie } from '@/lib/cookieUtils';
 import Cookies from "js-cookie";
+import { usePathname, useRouter } from 'next/navigation';
 
 const validationSchema = Yup.object({
     // Step 1
@@ -33,7 +34,13 @@ const validationSchema = Yup.object({
         }),
 
     // Step 3
-    purposeText: Yup.string().required('This field is required'),
+    purposeText: Yup.string()
+        .required('This field is required')
+        .test('word-count', 'Maximum 500 words allowed', (value) => {
+            if (!value) return true;
+            const words = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            return words <= 500;
+        }),
     selectedExperiences: Yup.array()
         .min(1, 'This field is required')
         .required('This field is required'),
@@ -107,7 +114,8 @@ export default function MultiStepForm() {
     const prevValuesRef = useRef<string>('');
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const triggerSaveRef = useRef<(() => void) | null>(null);
-
+    const router = useRouter();
+    const pathname = usePathname();
     // Initialize on client side only (run once)
     useEffect(() => {
         if (!initializeRef.current) {
@@ -176,7 +184,7 @@ export default function MultiStepForm() {
         }
     };
 
-    const handleNext = async (validateForm: () => Promise<Record<string, string | string[]>>, setTouched: (touched: Record<string, boolean>) => void) => {
+    const handleNext = async (validateForm: () => Promise<Record<string, string | string[]>>, setTouched: (touched: Record<string, boolean>) => void, values?: typeof initialValues) => {
         const stepFields = getStepFields(currentStep);
 
         // Mark all fields in current step as touched
@@ -193,7 +201,14 @@ export default function MultiStepForm() {
         const stepHasErrors = stepFields.some(field => errors[field]);
 
         if (!stepHasErrors && currentStep < totalSteps) {
-            setCurrentStep(currentStep + 1);
+            // Special case: Step 1 - if user selected "no" for employment, go to thanks page (step 6)
+            if (currentStep === 1 && values?.employment === 'no') {
+                const thanksPath = pathname.replace(/\/[^/]*$/, '/thanks');
+                const urlWithParams = `${thanksPath}`;
+                router.push(urlWithParams);
+            } else {
+                setCurrentStep(currentStep + 1);
+            }
         }
     };
 
@@ -296,7 +311,7 @@ export default function MultiStepForm() {
                                 touched={touched}
                                 setFieldValue={setFieldValue}
                                 setFieldTouched={setFieldTouched}
-                                onNext={() => handleNext(validateForm, setTouched)}
+                                onNext={() => handleNext(validateForm, setTouched, values)}
                                 onPrevious={handlePrevious}
                             />
                         )}
