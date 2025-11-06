@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
@@ -46,7 +46,32 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         return null;
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadFile = async (file: File): Promise<boolean> => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            if (!response.ok) {
+                toast.error(result.error);
+                return false;
+            }
+            toast.success('File uploaded successfully');
+            setUploadedFile(file);
+            setFieldValue('cvFile', file);
+            return true;
+        } catch (error) {
+            console.error('Upload failed:', error);
+            toast.error('Upload failed');
+            return false;
+        }
+    };
+
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
             const error = validateFile(file);
@@ -55,8 +80,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                 event.target.value = '';
                 return;
             }
-            setUploadedFile(file);
-            setFieldValue('cvFile', file);
+
+            const success = await uploadFile(file);
+            if (!success) {
+                event.target.value = '';
+            }
         }
     };
 
@@ -77,7 +105,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         e.stopPropagation();
     };
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(false);
@@ -88,8 +116,8 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                 toast.error(error);
                 return;
             }
-            setUploadedFile(file);
-            setFieldValue('cvFile', file);
+
+            await uploadFile(file);
         }
     };
 

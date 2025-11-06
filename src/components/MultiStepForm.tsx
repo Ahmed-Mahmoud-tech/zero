@@ -236,8 +236,14 @@ export default function MultiStepForm() {
         // Create FormData to send to backend
         const formData = new FormData();
         Object.entries(values).forEach(([key, value]) => {
+            if (key === 'cvFile') {
+                // Skip the file as it's already uploaded
+                return;
+            }
             if (key === 'selectedExperiences') {
                 formData.append(key, JSON.stringify(value));
+                // } else if (value instanceof File) {
+                //     formData.append(key, value);
             } else if (value !== null && value !== undefined) {
                 formData.append(key, value.toString());
             }
