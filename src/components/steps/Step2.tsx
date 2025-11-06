@@ -331,7 +331,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                         htmlFor="fileInput"
                                         className="cursor-pointer block text-gray-500 text-sm"
                                     >
-                                        Upload your CV or drag it here
+                                        {t('step2.uploadCvLabel')}
                                     </label>
                                 </div>
                             ) : (

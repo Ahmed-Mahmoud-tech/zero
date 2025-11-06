@@ -60,6 +60,7 @@
     "yearsExperience": "سنوات الخبرة",
     "cvFile": "تحميل سيرتك الذاتية",
     "dragDropText": "اسحب وأفلت سيرتك الذاتية هنا، أو انقر للاختيار",
+    "uploadCvLabel": "حمّل سيرتك الذاتية أو اسحبها هنا",
     "fileFormats": "الصيغ المدعومة: PDF، DOCX",
     "maxFileSize": "الحد الأقصى لحجم الملف: 10 ميجابايت",
     "uploadedFile": "الملف المحمل:",
@@ -155,7 +156,8 @@
     "english": "English",
     "arabic": "العربية",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "cvFileRequired": "ملف السيرة الذاتية مطلوب"
   },
   "options": {
     "gender": {

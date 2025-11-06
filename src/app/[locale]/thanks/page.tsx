@@ -16,7 +16,7 @@ export default async function SuccessPage() {
     const t = await getTranslations();
     const cookieStore = await cookies();
     const employment = getEmploymentFromCookie(cookieStore);
-    const isEmployed = employment === 'yes';
+    const isEmployed = employment === 'no';
 
     return (
         <div className="min-h-screen bg-linear-to-r from-[#f3e7e7] to-gray-100 flex items-center justify-center p-4">

@@ -63,10 +63,7 @@ export default function MultiStepForm() {
             .required(t('common.required'))
             .positive(t('common.positiveNumber'))
             .integer(t('common.wholeNumber')),
-        cvFile: Yup.mixed()
-            .test('file-required', t('common.required'), (value) => {
-                return value !== null && value !== undefined;
-            }),
+        cvFile: Yup.mixed().required(t('common.required')),
 
         // Step 3
         purposeText: Yup.string()
@@ -205,7 +202,7 @@ export default function MultiStepForm() {
 
         if (!stepHasErrors && currentStep < totalSteps) {
             // Special case: Step 1 - if user selected "no" for employment, go to thanks page (step 6)
-            if (currentStep === 1 && values?.employment === 'no') {
+            if (currentStep === 1 && values?.employment === 'yes') {
                 const thanksPath = pathname.replace(/\/[^/]*$/, '/thanks');
                 const urlWithParams = `${thanksPath}`;
                 router.push(urlWithParams);

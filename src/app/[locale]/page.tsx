@@ -22,7 +22,7 @@ export default function HomePage() {
                                 className="h-auto max-w-[45%]"
                             />
                             <div className="text-white">
-                                <h1 className="xs:text-md sm:text-xl font-bold md:text-2xl ms-4">
+                                <h1 className="text-base sm:text-xl font-bold md:text-2xl ms-4">
                                     {t('step1.title')}
                                 </h1>
                             </div>

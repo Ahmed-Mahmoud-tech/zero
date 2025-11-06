@@ -60,6 +60,7 @@
     "yearsExperience": "Years of experience",
     "cvFile": "Upload your CV",
     "dragDropText": "Drag and drop your CV here, or click to select",
+    "uploadCvLabel": "Upload your CV or drag it here",
     "fileFormats": "Supported formats: PDF, DOCX",
     "maxFileSize": "Max file size: 10MB",
     "uploadedFile": "Uploaded file:",
@@ -155,7 +156,8 @@
     "english": "English",
     "arabic": "العربية",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "cvFileRequired": "CV file is required"
   },
   "options": {
     "gender": {
