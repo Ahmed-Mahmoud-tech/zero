@@ -279,7 +279,6 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                 value={values.workplace}
                                 onChange={(e) => setFieldValue('workplace', e.target.value)}
                                 onBlur={() => setFieldTouched('workplace', true)}
-                                placeholder="Ministry of Justice"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                             />
                             <ErrorText error={errors.workplace} touched={touched.workplace} />
