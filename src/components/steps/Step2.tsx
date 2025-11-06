@@ -338,8 +338,8 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                 <div className="space-y-3">
                                     <div className="border border-gray-200 rounded-lg p-2 bg-white relative">
                                         <div className="flex items-center justify-between">
-                                            <div className="flex-1">
-                                                <p className="text-sm font-medium text-gray-900">
+                                            <div className="flex-1 max-w-[65%]">
+                                                <p className="text-sm font-medium text-gray-900 overflow-hidden text-ellipsis">
                                                     {uploadedFile.name}
                                                 </p>
                                                 <p className="text-xs text-gray-500">
@@ -348,7 +348,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                                             </div>
                                             <button
                                                 onClick={handleRemoveFile}
-                                                className="ml-4 text-gray-800 hover:text-gray-600 font-bold text-xs border border-gray-200 rounded px-2 py-1"
+                                                className=" mx-4 text-gray-800 hover:text-gray-600 font-bold text-xs border border-gray-200 rounded px-2 py-1"
                                                 title="Delete file"
                                             >
                                                 {t('step2.remove')}
@@ -359,12 +359,11 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                             )}
                         </div>
                         {uploadedFile && (
-                            <button
-                                onClick={handleFileSubmit}
+                            <span
                                 className="text-green-600 hover:text-green-700 font-medium text-xs mt-2"
                             >
                                 {t('common.uploadSuccess')}
-                            </button>
+                            </span>
                         )}
                         <ErrorText error={errors.cvFile} touched={touched.cvFile} />
                     </div>
