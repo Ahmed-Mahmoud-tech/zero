@@ -1,11 +1,20 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify';
 import '../globals.css';
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+
+  return {
+    title: t('title'),
+  };
+}
 
 export default async function RootLayout({
   children,
