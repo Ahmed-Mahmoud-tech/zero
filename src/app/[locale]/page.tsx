@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import MultiStepForm from "@/components/MultiStepForm";
 import LastSavedTime from "@/components/LastSavedTime";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import UserInfo from "@/components/UserInfo";
 
 export default function HomePage() {
     const t = useTranslations();
@@ -37,7 +38,7 @@ export default function HomePage() {
                             <LanguageSwitcher />
                         </div>
                         {/* Multi-Step Form */}
-                        <MultiStepForm />
+                        <MultiStepForm userInfoComponent={<UserInfo />} />
                     </div>
                 </div>
             </div>

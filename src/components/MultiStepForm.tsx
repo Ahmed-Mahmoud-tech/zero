@@ -44,7 +44,7 @@ const initialValues = {
     isAgreed: false,
 };
 
-export default function MultiStepForm() {
+export default function MultiStepForm({ userInfoComponent }: { userInfoComponent?: React.ReactNode } = {}) {
     const t = useTranslations();
 
     // Create validation schema with translated messages
@@ -332,6 +332,7 @@ export default function MultiStepForm() {
                                 setFieldTouched={setFieldTouched}
                                 onNext={() => handleNext(validateForm, setTouched)}
                                 onPrevious={handlePrevious}
+                                userInfoComponent={userInfoComponent}
                             />
                         )}
 

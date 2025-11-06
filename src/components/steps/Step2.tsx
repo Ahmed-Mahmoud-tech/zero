@@ -1,13 +1,17 @@
 ﻿"use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ReactNode } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { StepProps } from "@/types/form";
 import ErrorText from "../ErrorText";
 import { emirateOptions, statusOptions, sectorOptions, fieldOptions } from "@/lib/options";
 
-export default function Step2({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious }: StepProps) {
+interface Step2Props extends StepProps {
+    userInfoComponent?: ReactNode;
+}
+
+export default function Step2({ values, errors, touched, setFieldValue, setFieldTouched, onNext, onPrevious, userInfoComponent }: Step2Props) {
     const t = useTranslations();
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -166,26 +170,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
 
                 {/* Personal Information Section */}
                 <div className="mb-8 space-y-4">
-                    <div className="flex justify-between gap-4 flex-wrap">
-                        <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-1">
-                                {t('step2.name')}: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
-                            </label>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-1">
-                                {t('step2.emiratesId')}: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
-                            </label>
-
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-1">
-                            {t('step2.gender')}: <span className="text-sm text-gray-600 font-medium">UAE Pass/Endpoint</span>
-                        </label>
-
-                    </div>
+                    {userInfoComponent}
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 mb-3">
