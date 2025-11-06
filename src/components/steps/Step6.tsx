@@ -4,15 +4,34 @@ import { useRouter, usePathname } from 'next/navigation';
 import { StepProps } from '@/types/form';
 import { useTranslations } from 'next-intl';
 
+// Fake API function to simulate posting form data (excluding file)
+const fakeApiPost = (data: any) => {
+    return new Promise((resolve, reject) => {
+        console.log('Posting form data:', data);
+        setTimeout(() => {
+            // Simulate success
+            resolve({ success: true });
+        }, 1000); // Fake delay
+    });
+};
+
 export default function Step6({ values, onPrevious, onStepChange }: StepProps) {
     const router = useRouter();
     const pathname = usePathname();
     const t = useTranslations();
 
-    const handleSubmit = () => {
-        const thanksPath = pathname.replace(/\/[^/]*$/, '/thanks');
-        const urlWithParams = `${thanksPath}`;
-        router.push(urlWithParams);
+    const handleSubmit = async () => {
+        // Prepare data excluding cvFile
+        const { cvFile, ...dataToSubmit } = values;
+
+        try {
+            await fakeApiPost(dataToSubmit);
+            const thanksPath = pathname.replace(/\/[^/]*$/, '/thanks');
+            router.push(thanksPath);
+        } catch (error) {
+            console.error('Submission failed:', error);
+            // Optionally show an error message to the user
+        }
     };
 
     const getExperienceLabel = (value: string) => {
