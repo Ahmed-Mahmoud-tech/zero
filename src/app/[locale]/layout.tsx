@@ -1,6 +1,8 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify';
+import { AuthProvider } from '@/components/AuthProvider';
+import AuthHeader from '@/components/AuthHeader';
 import '../globals.css';
 type Props = {
   children: React.ReactNode;
@@ -26,10 +28,13 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className='bg-black'>
-        <NextIntlClientProvider messages={messages}>
-          {children}
-          <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={locale === 'ar'} pauseOnFocusLoss draggable pauseOnHover />
-        </NextIntlClientProvider>
+        <AuthProvider>
+          <AuthHeader />
+          <NextIntlClientProvider messages={messages}>
+            {children}
+            <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={locale === 'ar'} pauseOnFocusLoss draggable pauseOnHover />
+          </NextIntlClientProvider>
+        </AuthProvider>
       </body>
     </html>
   );

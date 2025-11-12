@@ -55,15 +55,15 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
         formData.append('file', file);
 
         try {
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
-            const result = await response.json();
-            if (!response.ok) {
-                toast.error(result.error);
-                return false;
-            }
+            // const response = await fetch('/api/upload', {
+            //     method: 'POST',
+            //     body: formData,
+            // });
+            // const result = await response.json();
+            // if (!response.ok) {
+            //     toast.error(result.error);
+            //     return false;
+            // }
             toast.success('File uploaded successfully');
             setUploadedFile(file);
             setFieldValue('cvFile', file);
@@ -320,7 +320,7 @@ export default function Step2({ values, errors, touched, setFieldValue, setField
                     </h3>
 
                     <p className="text-sm text-gray-600 mb-4">
-                        {t('step2.dragDropText')} ({t('step2.fileFormats')}, {t('step2.maxFileSize')})
+                        {t('step2.dragDropText')} {t('step2.fileFormats')}, {t('step2.maxFileSize')}
                     </p>
                     <div>
                         <div className="p-4 bg-red-25 border-dashed border border-gray-400 rounded-lg bg-red-50">

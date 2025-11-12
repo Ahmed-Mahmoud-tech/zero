@@ -31,20 +31,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert file to buffer
-    const bytes = await file.arrayBuffer();
-    // You can use the buffer here if needed for further processing
-    console.log(
-      `File received: ${file.name}, Size: ${file.size} bytes, Bytes length: ${bytes.byteLength}`
-    );
-
-    return NextResponse.json({
-      success: true,
-      message: "File uploaded successfully",
-      fileName: file.name,
-      fileSize: file.size,
-      fileType: file.type,
+    // Forward the file to NEXT_PUBLIC_AUTH0_DOMAIN
+    const uploadUrl = `${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/api/upload`;
+    const uploadResponse = await fetch(uploadUrl, {
+      method: "POST",
+      body: formData,
     });
+
+    const result = await uploadResponse.json();
+
+    if (!uploadResponse.ok) {
+      return NextResponse.json(result, { status: uploadResponse.status });
+    }
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error("Error uploading file:", error);
     return NextResponse.json(

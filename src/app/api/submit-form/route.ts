@@ -16,19 +16,23 @@ export async function POST(request: NextRequest) {
 
     console.log("Form submission received:", data);
 
-    // Here you can:
-    // 1. Save to database
-    // 2. Send to external API
-    // 3. Process the data as needed
-
-    // Simulate processing
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return NextResponse.json({
-      success: true,
-      message: "Form submitted successfully",
-      data: data,
+    // Forward the form data to NEXT_PUBLIC_AUTH0_DOMAIN
+    const submitUrl = `${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/api/submit-form`;
+    const submitResponse = await fetch(submitUrl, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "x-app-token": process.env.X_APP_TOKEN || "",
+      },
     });
+
+    const result = await submitResponse.json();
+
+    if (!submitResponse.ok) {
+      return NextResponse.json(result, { status: submitResponse.status });
+    }
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error("Error submitting form:", error);
     return NextResponse.json(
