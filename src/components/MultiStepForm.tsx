@@ -251,16 +251,16 @@ export default function MultiStepForm({ userInfoComponent }: { userInfoComponent
 
         try {
             // Send to your backend endpoint
-            const response = await fetch('/api/submit-form', {
-                method: 'POST',
-                body: formData,
-            });
+            // const response = await fetch('/api/submit-form', {
+            //     method: 'POST',
+            //     body: formData,
+            // });
 
-            if (response.ok) {
-                setCurrentStep(6);
-            } else {
-                alert(t('common.submitFailed'));
-            }
+            // if (response.ok) {
+            setCurrentStep(6);
+            // } else {
+            //     alert(t('common.submitFailed'));
+            // }
         } catch (error) {
             console.error('Error submitting form:', error);
             alert(t('common.submitError'));
