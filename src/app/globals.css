@@ -14,13 +14,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -78,4 +71,8 @@ input[type="checkbox"]:checked {
 
 button {
   cursor: pointer;
+}
+
+textarea::placeholder {
+  color: #8b8da5;
 }
