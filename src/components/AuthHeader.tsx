@@ -46,7 +46,7 @@ export default function AuthHeader() {
                     disabled={isLoading}
                     className="px-4 py-2 bg-red-600  text-white rounded-lg hover:bg-red-800  transition disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
-                    {isLoading ? t("SigningIn...") : t("SignIn")}
+                    {isLoading ? t("SigningIn") : t("SignIn")}
                 </button>
             ) : (
                 <div className="flex items-center gap-4">
@@ -59,7 +59,7 @@ export default function AuthHeader() {
                         disabled={isLoading}
                         className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-800 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                     >
-                        {isLoading ? t("SigningOut...") : t("SignOut")}
+                        {isLoading ? t("SigningOut") : t("SignOut")}
                     </button>
                 </div>
             )}

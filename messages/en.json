@@ -159,9 +159,9 @@
     "no": "No",
     "cvFileRequired": "CV file is required",
     "SignIn": "Sign In",
-    "SigningIn...": "Signing in...",
+    "SigningIn": "Signing in...",
     "SignOut": "Sign Out",
-    "SigningOut...": "Signing out..."
+    "SigningOut": "Signing out..."
   },
   "options": {
     "gender": {
