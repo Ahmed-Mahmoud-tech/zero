@@ -157,7 +157,11 @@
     "arabic": "العربية",
     "yes": "Yes",
     "no": "No",
-    "cvFileRequired": "CV file is required"
+    "cvFileRequired": "CV file is required",
+    "SignIn": "Sign In",
+    "SigningIn...": "Signing in...",
+    "SignOut": "Sign Out",
+    "SigningOut...": "Signing out..."
   },
   "options": {
     "gender": {

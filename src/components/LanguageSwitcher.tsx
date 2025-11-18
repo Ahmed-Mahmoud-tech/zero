@@ -8,7 +8,7 @@ export default function LanguageSwitcher() {
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
-    const t = useTranslations();
+    const t = useTranslations("common");
 
     const switchLanguage = () => {
         const newLocale = locale === 'en' ? 'ar' : 'en';
@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
         router.push(newPath);
     };
 
-    const buttonText = locale === 'en' ? t('common.arabic') : t('common.english');
+    const buttonText = locale === 'en' ? "العربية" : "English";
 
     return (
         <button
