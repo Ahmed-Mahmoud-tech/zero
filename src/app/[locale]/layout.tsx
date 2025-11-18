@@ -29,8 +29,8 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className='bg-black'>
         <AuthProvider>
-          <AuthHeader />
           <NextIntlClientProvider messages={messages}>
+            <AuthHeader />
             {children}
             <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={locale === 'ar'} pauseOnFocusLoss draggable pauseOnHover />
           </NextIntlClientProvider>
